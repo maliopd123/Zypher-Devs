@@ -1,0 +1,35 @@
+﻿@page "/"
+
+<h3>Projeto Chaves</h3>
+
+<div style="width:300px; margin:auto;">
+    <label>Matrícula</label>
+    <input class="form-control" @bind="matricula" />
+
+    <label class="mt-2">Senha</label>
+    <input type="password" class="form-control" @bind="senha" />
+
+    <button class="btn btn-primary mt-3" @onclick="Entrar">
+        Entrar
+    </button>
+
+    <p class="text-danger mt-2">@mensagem</p>
+</div>
+
+@code {
+    string matricula = "";
+    string senha = "";
+    string mensagem = "";
+
+    void Entrar()
+    {
+        if (matricula == "2025001" && senha == "123")
+        {
+            mensagem = "Login realizado com sucesso!";
+        }
+        else
+        {
+            mensagem = "Matrícula ou senha inválida!";
+        }
+    }
+}
