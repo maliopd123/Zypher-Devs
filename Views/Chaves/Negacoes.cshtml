@@ -1,0 +1,92 @@
+@model IEnumerable<ProjetoChaves.Models.Negacao>
+@{
+    ViewData["Title"] = "Negacoes de Acesso";
+    ViewData["CurrentPage"] = "negacoes";
+    ViewData["ShellTitle"] = "Negacoes de Acesso";
+    var negacoes = Model?.ToList() ?? new List<ProjetoChaves.Models.Negacao>();
+}
+
+@await Html.PartialAsync("_DashboardShellStart")
+
+<div class="page-stack">
+    <div class="page-head">
+        <h2>Negacoes de Acesso</h2>
+        <p class="muted">Visualize todas as tentativas de acesso negadas no sistema</p>
+    </div>
+
+    <div class="panel pad">
+        <div class="toolbar">
+            <input class="input" type="text" placeholder="Buscar por usuario, chave ou local..." />
+            <button class="btn outline" type="button">Filtrar</button>
+            <button class="btn outline" type="button">Exportar</button>
+        </div>
+    </div>
+
+    <div class="panel table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Chave</th>
+                    <th>Data e Hora</th>
+                    <th>Motivo</th>
+                    <th>Local</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (negacoes.Any())
+                {
+                    foreach (var negacao in negacoes)
+                    {
+                        <tr>
+                            <td>@(negacao.Usuario?.Nome ?? "Usuario")</td>
+                            <td>@(negacao.Chave?.Codigo ?? "Chave")</td>
+                            <td>@negacao.DataHora.ToString("yyyy-MM-dd 'as' HH:mm")</td>
+                            <td><span class="pill">@negacao.Motivo</span></td>
+                            <td>@negacao.Local</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    var linhas = new[]
+                    {
+                        new { Usuario = "Joao Silva", Chave = "Sala 01", Data = "2026-06-30 as 14:30", Motivo = "Chave nao disponivel", Local = "Bloco A" },
+                        new { Usuario = "Maria Santos", Chave = "Laboratorio 02", Data = "2026-06-30 as 13:45", Motivo = "Horario fora do permitido", Local = "Bloco B" },
+                        new { Usuario = "Pedro Oliveira", Chave = "Sala 03", Data = "2026-06-29 as 16:20", Motivo = "Usuario sem permissao", Local = "Bloco A" },
+                        new { Usuario = "Ana Costa", Chave = "Biblioteca", Data = "2026-06-29 as 15:10", Motivo = "Chave em manutencao", Local = "Bloco C" },
+                        new { Usuario = "Carlos Mendes", Chave = "Sala 05", Data = "2026-06-28 as 12:00", Motivo = "Limite de acessos excedido", Local = "Bloco A" }
+                    };
+
+                    foreach (var linha in linhas)
+                    {
+                        <tr>
+                            <td>@linha.Usuario</td>
+                            <td>@linha.Chave</td>
+                            <td>@linha.Data</td>
+                            <td><span class="pill">@linha.Motivo</span></td>
+                            <td>@linha.Local</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="grid three">
+        <div class="stat-card">
+            <div class="stat-value" style="color:#dc2626">@(negacoes.Any() ? negacoes.Count : 5)</div>
+            <div class="stat-label">Total de Negacoes</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" style="color:#ea580c">2</div>
+            <div class="stat-label">Hoje</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" style="color:#ca8a04">3</div>
+            <div class="stat-label">Esta Semana</div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_DashboardShellEnd")

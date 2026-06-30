@@ -1,0 +1,51 @@
+@model IEnumerable<ProjetoChaves.Models.Chave>
+@{
+    ViewData["Title"] = "Disponibilidade de Chaves";
+    ViewData["CurrentPage"] = "disponibilidade";
+    ViewData["ShellTitle"] = "Disponibilidade de Chaves";
+    var chaves = Model?.ToList() ?? new List<ProjetoChaves.Models.Chave>();
+    var total = chaves.Any() ? chaves.Count : 15;
+    var disponiveis = chaves.Any() ? chaves.Count(c => c.Disponivel) : 12;
+}
+
+@await Html.PartialAsync("_DashboardShellStart")
+
+<div class="page-stack">
+    <div class="page-head">
+        <h2>Disponibilidade de Chaves</h2>
+        <p class="muted">Visao rapida das chaves livres e em uso.</p>
+    </div>
+
+    <div class="grid three">
+        <div class="stat-card"><div class="stat-value">@total</div><div class="stat-label">Total de Chaves</div></div>
+        <div class="stat-card"><div class="stat-value">@disponiveis</div><div class="stat-label">Disponiveis</div></div>
+        <div class="stat-card"><div class="stat-value">@(total - disponiveis)</div><div class="stat-label">Em uso ou bloqueadas</div></div>
+    </div>
+
+    <section class="panel table-wrap">
+        <table class="data-table">
+            <thead><tr><th>Chave</th><th>Local</th><th>Responsavel</th><th>Status</th></tr></thead>
+            <tbody>
+                @if (chaves.Any())
+                {
+                    foreach (var chave in chaves)
+                    {
+                        <tr>
+                            <td>@chave.Codigo</td>
+                            <td>@chave.Local</td>
+                            <td>@(chave.UsuarioResponsavel?.Nome ?? "-")</td>
+                            <td><span class="status @(chave.Disponivel ? "ok" : "warn")">@(chave.Disponivel ? "Disponivel" : "Em uso")</span></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td>Sala 01</td><td>Bloco A</td><td>-</td><td><span class="status ok">Disponivel</span></td></tr>
+                    <tr><td>Sala 05</td><td>Bloco B</td><td>Usuario Teste</td><td><span class="status warn">Em uso</span></td></tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</div>
+
+@await Html.PartialAsync("_DashboardShellEnd")

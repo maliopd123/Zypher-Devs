@@ -1,0 +1,118 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["CurrentPage"] = "dashboard";
+    ViewData["ShellTitle"] = "Painel de Controle";
+    var negacoes = ViewBag.Negacoes as IEnumerable<ProjetoChaves.Models.Negacao>;
+    ViewDataDictionary IconData(string icon) => new(ViewData) { ["Icon"] = icon };
+}
+
+@await Html.PartialAsync("_DashboardShellStart")
+
+<div class="page-stack">
+    <div class="grid two">
+        <div class="alert-card warning">
+            <strong>!</strong>
+            <div>
+                <strong>Atencao em Atraso</strong>
+                <p>Voce tem 2 registros pendentes de processamento</p>
+            </div>
+            <button class="btn ghost" type="button">Ver</button>
+        </div>
+        <div class="alert-card good">
+            <strong>OK</strong>
+            <div>
+                <strong>Otimo em Atraso</strong>
+                <p>Todos os seus acessos foram processados com sucesso</p>
+            </div>
+            <button class="btn ghost" type="button">Ver</button>
+        </div>
+    </div>
+
+    <div class="grid three">
+        <div class="stat-card">
+            <div class="stat-value">@ViewBag.TotalChaves</div>
+            <div class="stat-label">Chaves Recuperadas</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">@ViewBag.ChavasIndisponiveis</div>
+            <div class="stat-label">Chaves em Atraso</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">@ViewBag.TotalRegistros</div>
+            <div class="stat-label">Registros</div>
+        </div>
+    </div>
+
+    <section>
+        <h2 class="section-title">Funcionalidades Disponiveis</h2>
+        <div class="grid features">
+            <a class="feature-card" asp-controller="Relatorios" asp-action="Index">
+                <span class="feature-icon">@await Html.PartialAsync("_Icon", IconData("chart"))</span>
+                <span class="feature-name">Tabulacao de Registros</span>
+            </a>
+            <a class="feature-card" asp-controller="Auth" asp-action="ForgotPassword">
+                <span class="feature-icon">@await Html.PartialAsync("_Icon", IconData("key"))</span>
+                <span class="feature-name">Recuperar Senha</span>
+            </a>
+            <a class="feature-card" asp-controller="Chaves" asp-action="Disponiveis">
+                <span class="feature-icon">@await Html.PartialAsync("_Icon", IconData("search"))</span>
+                <span class="feature-name">Consultar de Chaves</span>
+            </a>
+            <a class="feature-card" asp-controller="Usuarios" asp-action="Index">
+                <span class="feature-icon">@await Html.PartialAsync("_Icon", IconData("users"))</span>
+                <span class="feature-name">Cadastro de Usuario</span>
+            </a>
+            <a class="feature-card" asp-controller="Relatorios" asp-action="Index">
+                <span class="feature-icon">@await Html.PartialAsync("_Icon", IconData("file"))</span>
+                <span class="feature-name">Tabulacao de Relatorio</span>
+            </a>
+            <a class="feature-card" asp-controller="Chaves" asp-action="Disponiveis">
+                <span class="feature-icon">@await Html.PartialAsync("_Icon", IconData("lock"))</span>
+                <span class="feature-name">Consulta de Chaves</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="panel activity">
+        <h2 class="section-title">Ultimos Movimentos</h2>
+        @if (negacoes != null && negacoes.Any())
+        {
+            foreach (var negacao in negacoes)
+            {
+                <div class="activity-row">
+                    <div>
+                        <p>@(negacao.Chave?.Codigo ?? "Chave") - @negacao.Motivo</p>
+                        <span class="muted">@negacao.DataHora.ToString("dd/MM/yyyy HH:mm")</span>
+                    </div>
+                    <strong class="detail-value ok">OK</strong>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="activity-row">
+                <div>
+                    <p>Chave recuperada da Sala 3</p>
+                    <span class="muted">ha 2 horas</span>
+                </div>
+                <strong class="detail-value ok">OK</strong>
+            </div>
+            <div class="activity-row">
+                <div>
+                    <p>Novo usuario cadastrado</p>
+                    <span class="muted">ha 5 horas</span>
+                </div>
+                <strong class="detail-value ok">OK</strong>
+            </div>
+            <div class="activity-row">
+                <div>
+                    <p>Relatorio gerado</p>
+                    <span class="muted">ha 1 dia</span>
+                </div>
+                <strong class="detail-value ok">OK</strong>
+            </div>
+        }
+    </section>
+</div>
+
+@await Html.PartialAsync("_DashboardShellEnd")

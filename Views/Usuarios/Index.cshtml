@@ -1,0 +1,48 @@
+@model IEnumerable<ProjetoChaves.Models.Usuario>
+@{
+    ViewData["Title"] = "Coletor Usuario";
+    ViewData["CurrentPage"] = "usuarios";
+    ViewData["ShellTitle"] = "Coletor Usuario";
+    var usuarios = Model?.ToList() ?? new List<ProjetoChaves.Models.Usuario>();
+}
+
+@await Html.PartialAsync("_DashboardShellStart")
+
+<div class="page-stack">
+    <div class="page-head">
+        <h2>Coletor Usuario</h2>
+        <p class="muted">Consulte os usuarios cadastrados e acesse o cadastro rapidamente.</p>
+    </div>
+
+    <div class="toolbar">
+        <input class="input" type="text" placeholder="Buscar usuario, email ou matricula..." />
+        <a class="btn outline" asp-controller="Auth" asp-action="Cadastro">Novo usuario</a>
+    </div>
+
+    <section class="panel table-wrap">
+        <table class="data-table">
+            <thead><tr><th>Nome</th><th>Email</th><th>Matricula</th><th>Status</th><th>Cadastro</th></tr></thead>
+            <tbody>
+                @if (usuarios.Any())
+                {
+                    foreach (var usuario in usuarios)
+                    {
+                        <tr>
+                            <td>@usuario.Nome</td>
+                            <td>@usuario.Email</td>
+                            <td>@usuario.Matricula</td>
+                            <td><span class="status @(usuario.Ativo ? "ok" : "warn")">@(usuario.Ativo ? "Ativo" : "Inativo")</span></td>
+                            <td>@usuario.DataCadastro.ToString("dd/MM/yyyy")</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td>Usuario Teste</td><td>teste@ifro.edu.br</td><td>123456</td><td><span class="status ok">Ativo</span></td><td>@DateTime.Today.ToString("dd/MM/yyyy")</td></tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</div>
+
+@await Html.PartialAsync("_DashboardShellEnd")

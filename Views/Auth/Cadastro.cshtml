@@ -1,0 +1,59 @@
+@{
+    ViewData["Title"] = "Cadastro";
+}
+
+<div class="auth-page">
+    <div class="auth-wrap">
+        <div class="auth-card">
+            <div class="auth-head">
+                @await Html.PartialAsync("_Logo")
+                <h1 class="auth-title">Cadastro</h1>
+                <p class="auth-subtitle muted">Crie sua conta no Projeto Chaves</p>
+            </div>
+
+            @if (!string.IsNullOrEmpty(ViewBag.Erro))
+            {
+                <div class="message error">@ViewBag.Erro</div>
+            }
+
+            <form class="form-stack" method="post" asp-controller="Auth" asp-action="Cadastro">
+                <div class="field">
+                    <label for="nome">Nome Completo *</label>
+                    <input class="input" id="nome" name="nome" type="text" placeholder="Digite seu nome" required />
+                </div>
+                <div class="field">
+                    <label for="email">Email *</label>
+                    <input class="input" id="email" name="email" type="email" placeholder="seu.email@example.com" required />
+                </div>
+                <div class="field">
+                    <label for="matricula">Matricula *</label>
+                    <input class="input" id="matricula" name="matricula" type="text" placeholder="ex: 00-0000" required />
+                </div>
+                <div class="field">
+                    <label for="senha">Senha *</label>
+                    <div class="password-row">
+                        <input class="input" id="senha" name="senha" type="password" placeholder="Digite sua senha" required />
+                        <button class="icon-btn" type="button" data-toggle-password="senha" title="Mostrar senha">ver</button>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="confirmarSenha">Confirmar Senha *</label>
+                    <div class="password-row">
+                        <input class="input" id="confirmarSenha" name="confirmarSenha" type="password" placeholder="Confirme sua senha" required />
+                        <button class="icon-btn" type="button" data-toggle-password="confirmarSenha" title="Mostrar senha">ver</button>
+                    </div>
+                </div>
+                <label class="terms">
+                    <input type="checkbox" required />
+                    <span>Concordo com os termos de servico e politica de privacidade</span>
+                </label>
+                <button class="btn primary" type="submit">Cadastrar</button>
+            </form>
+
+            <div class="auth-links">
+                <a class="auth-link secondary" asp-controller="Auth" asp-action="Login">Voltar ao login</a>
+            </div>
+        </div>
+        <p class="auth-footer">Instituto Federal de Rondonia</p>
+    </div>
+</div>

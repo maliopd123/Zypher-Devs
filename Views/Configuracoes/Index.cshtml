@@ -1,0 +1,32 @@
+@{
+    ViewData["Title"] = "Configuracoes";
+    ViewData["CurrentPage"] = "configuracoes";
+    ViewData["ShellTitle"] = "Configuracoes de Usuario";
+}
+
+@await Html.PartialAsync("_DashboardShellStart")
+
+<div class="page-stack">
+    <div class="page-head">
+        <h2>Configuracoes de Usuario</h2>
+        <p class="muted">Ajustes basicos da conta e preferencias do sistema.</p>
+    </div>
+
+    <section class="panel pad">
+        <h2 class="section-title">Preferencias</h2>
+        <div class="form-grid">
+            <div class="field"><label>Nome exibido</label><input class="input" value="@Context.Session.GetString("UsuarioNome")" /></div>
+            <div class="field"><label>Perfil</label><select class="select"><option>Administrador</option><option>Operador</option></select></div>
+            <div class="field"><label>Notificacoes</label><select class="select"><option>Ativadas</option><option>Desativadas</option></select></div>
+            <button class="btn primary form-submit" type="button">Salvar preferencias</button>
+        </div>
+    </section>
+
+    <section class="panel pad">
+        <h2 class="section-title">Seguranca</h2>
+        <p class="muted">Use a recuperacao de senha para redefinir seu acesso.</p>
+        <a class="btn outline" asp-controller="Auth" asp-action="ForgotPassword">Recuperar senha</a>
+    </section>
+</div>
+
+@await Html.PartialAsync("_DashboardShellEnd")

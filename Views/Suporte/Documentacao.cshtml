@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "Documentacao";
+    ViewData["CurrentPage"] = "documentacao";
+    ViewData["ShellTitle"] = "Documentacao";
+}
+
+@await Html.PartialAsync("_DashboardShellStart")
+
+<div class="page-stack">
+    <div class="page-head">
+        <h2>Documentacao</h2>
+        <p class="muted">Mapa das areas disponiveis no Projeto Chaves.</p>
+    </div>
+
+    <section class="panel table-wrap">
+        <table class="data-table">
+            <thead><tr><th>Area</th><th>Funcao</th><th>Rota</th></tr></thead>
+            <tbody>
+                <tr><td>Painel</td><td>Resumo geral e atalhos</td><td>/dashboard</td></tr>
+                <tr><td>Coletor de Chaves</td><td>Cadastro e listagem de chaves</td><td>/chaves</td></tr>
+                <tr><td>Chaves Disponiveis</td><td>Consulta visual de chaves livres</td><td>/chaves-disponiveis</td></tr>
+                <tr><td>Negacoes</td><td>Tentativas de acesso negadas</td><td>/negacoes</td></tr>
+                <tr><td>Relatorios</td><td>Indicadores do sistema</td><td>/relatorios</td></tr>
+            </tbody>
+        </table>
+    </section>
+</div>
+
+@await Html.PartialAsync("_DashboardShellEnd")

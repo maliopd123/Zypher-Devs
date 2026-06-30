@@ -1,0 +1,58 @@
+@model IEnumerable<ProjetoChaves.Models.Chave>
+@{
+    ViewData["Title"] = "Coletor de Chaves";
+    ViewData["CurrentPage"] = "chaves";
+    ViewData["ShellTitle"] = "Coletor de Chaves";
+    var chaves = Model?.ToList() ?? new List<ProjetoChaves.Models.Chave>();
+}
+
+@await Html.PartialAsync("_DashboardShellStart")
+
+<div class="page-stack">
+    <div class="page-head">
+        <h2>Coletor de Chaves</h2>
+        <p class="muted">Cadastre, consulte e acompanhe as chaves do sistema.</p>
+    </div>
+
+    @if (TempData["Sucesso"] != null) { <div class="message success">@TempData["Sucesso"]</div> }
+    @if (TempData["Erro"] != null) { <div class="message error">@TempData["Erro"]</div> }
+
+    <section class="panel pad">
+        <h2 class="section-title">Nova chave</h2>
+        <form class="form-grid" method="post" asp-controller="Chaves" asp-action="Criar">
+            <div class="field"><label>Codigo</label><input class="input" name="codigo" placeholder="Sala 01" required /></div>
+            <div class="field"><label>Descricao</label><input class="input" name="descricao" placeholder="Chave da sala" required /></div>
+            <div class="field"><label>Local</label><input class="input" name="local" placeholder="Bloco A" /></div>
+            <div class="field"><label>Categoria</label><input class="input" name="categoria" placeholder="Sala, laboratorio..." /></div>
+            <button class="btn primary form-submit" type="submit">Cadastrar chave</button>
+        </form>
+    </section>
+
+    <section class="panel table-wrap">
+        <table class="data-table">
+            <thead><tr><th>Codigo</th><th>Descricao</th><th>Local</th><th>Categoria</th><th>Status</th></tr></thead>
+            <tbody>
+                @if (chaves.Any())
+                {
+                    foreach (var chave in chaves)
+                    {
+                        <tr>
+                            <td>@chave.Codigo</td>
+                            <td>@chave.Descricao</td>
+                            <td>@chave.Local</td>
+                            <td>@chave.Categoria</td>
+                            <td><span class="status @(chave.Disponivel ? "ok" : "warn")">@(chave.Disponivel ? "Disponivel" : "Em uso")</span></td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td>Sala 01</td><td>Chave da sala 01</td><td>Bloco A</td><td>Sala</td><td><span class="status ok">Disponivel</span></td></tr>
+                    <tr><td>Laboratorio 02</td><td>Chave do laboratorio</td><td>Bloco B</td><td>Laboratorio</td><td><span class="status ok">Disponivel</span></td></tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</div>
+
+@await Html.PartialAsync("_DashboardShellEnd")

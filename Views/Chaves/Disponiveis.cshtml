@@ -1,0 +1,75 @@
+@model IEnumerable<ProjetoChaves.Models.Chave>
+@{
+    ViewData["Title"] = "Chaves Disponiveis";
+    ViewData["CurrentPage"] = "chaves-disponiveis";
+    ViewData["ShellTitle"] = "Chaves Disponiveis";
+    ViewDataDictionary IconData(string icon) => new(ViewData) { ["Icon"] = icon };
+
+    var chaves = Model?.Where(c => c.Disponivel).Select(c => new
+    {
+        Code = c.Codigo ?? c.Descricao ?? "Chave",
+        Location = c.Local ?? "Sem local"
+    }).ToList();
+
+    if (chaves == null || chaves.Count == 0)
+    {
+        chaves = Enumerable.Range(1, 15).Select(i => new
+        {
+            Code = $"Sala {i:00}",
+            Location = i <= 4 ? "Bloco A" : i <= 8 ? "Bloco B" : i <= 12 ? "Bloco C" : "Bloco D"
+        }).ToList();
+    }
+}
+
+@await Html.PartialAsync("_DashboardShellStart")
+
+<div class="page-stack">
+    <div class="page-head">
+        <h2>Chaves Disponiveis</h2>
+        <p class="muted">Selecione uma chave para mais informacoes</p>
+    </div>
+
+    <div class="toolbar">
+        <div class="search-wrap">
+            <span class="search-icon">@await Html.PartialAsync("_Icon", IconData("search"))</span>
+            <input class="input" id="keySearch" type="text" placeholder="Buscar chave ou local..." />
+        </div>
+        <button class="btn outline" type="button">Filtrar</button>
+        <a class="btn outline" asp-controller="Dashboard" asp-action="Index">Voltar</a>
+    </div>
+
+    <div class="grid keys" id="keysGrid">
+        @foreach (var chave in chaves)
+        {
+            <button class="key-card" type="button" data-code="@chave.Code" data-location="@chave.Location">
+                <span class="feature-icon">@await Html.PartialAsync("_Icon", IconData("key"))</span>
+                <span class="key-code">@chave.Code</span>
+                <span class="key-location">@chave.Location</span>
+            </button>
+        }
+    </div>
+
+    <section class="panel pad" id="keyDetails" hidden>
+        <h2 class="section-title">Informacoes da Chave</h2>
+        <div class="details-grid">
+            <div>
+                <p class="detail-label">Codigo</p>
+                <p class="detail-value" id="detailCode"></p>
+            </div>
+            <div>
+                <p class="detail-label">Localizacao</p>
+                <p class="detail-value" id="detailLocation"></p>
+            </div>
+            <div>
+                <p class="detail-label">Status</p>
+                <p class="detail-value ok">Disponivel</p>
+            </div>
+            <div>
+                <p class="detail-label">Ultima Atualizacao</p>
+                <p class="detail-value">Hoje as 14:30</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+@await Html.PartialAsync("_DashboardShellEnd")

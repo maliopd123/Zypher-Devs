@@ -1,0 +1,42 @@
+@{
+    ViewData["Title"] = "Relatorios";
+    ViewData["CurrentPage"] = "relatorios";
+    ViewData["ShellTitle"] = "Relatorios";
+}
+
+@await Html.PartialAsync("_DashboardShellStart")
+
+<div class="page-stack">
+    <div class="page-head">
+        <h2>Relatorios</h2>
+        <p class="muted">Resumo operacional do Projeto Chaves.</p>
+    </div>
+
+    <div class="grid three">
+        <div class="stat-card"><div class="stat-value">@(ViewBag.TotalChaves == 0 ? 32 : ViewBag.TotalChaves)</div><div class="stat-label">Chaves cadastradas</div></div>
+        <div class="stat-card"><div class="stat-value">@(ViewBag.ChavesDisponiveis == 0 ? 24 : ViewBag.ChavesDisponiveis)</div><div class="stat-label">Chaves disponiveis</div></div>
+        <div class="stat-card"><div class="stat-value">@(ViewBag.TotalUsuarios == 0 ? 156 : ViewBag.TotalUsuarios)</div><div class="stat-label">Usuarios</div></div>
+    </div>
+
+    <section class="panel pad">
+        <h2 class="section-title">Exportacoes</h2>
+        <div class="grid three">
+            <button class="btn outline" type="button">Gerar relatorio de chaves</button>
+            <button class="btn outline" type="button">Gerar relatorio de usuarios</button>
+            <button class="btn outline" type="button">Gerar relatorio de negacoes</button>
+        </div>
+    </section>
+
+    <section class="panel table-wrap">
+        <table class="data-table">
+            <thead><tr><th>Indicador</th><th>Valor</th><th>Situacao</th></tr></thead>
+            <tbody>
+                <tr><td>Negacoes de acesso</td><td>@(ViewBag.TotalNegacoes == 0 ? 5 : ViewBag.TotalNegacoes)</td><td><span class="status warn">Monitorar</span></td></tr>
+                <tr><td>Disponibilidade geral</td><td>75%</td><td><span class="status ok">Estavel</span></td></tr>
+                <tr><td>Cadastros recentes</td><td>3</td><td><span class="status ok">Normal</span></td></tr>
+            </tbody>
+        </table>
+    </section>
+</div>
+
+@await Html.PartialAsync("_DashboardShellEnd")

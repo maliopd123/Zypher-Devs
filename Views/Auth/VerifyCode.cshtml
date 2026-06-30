@@ -1,0 +1,37 @@
+@{
+    ViewData["Title"] = "Verificacao";
+}
+
+<div class="auth-page">
+    <div class="auth-wrap">
+        <div class="auth-card">
+            <div class="auth-head">
+                @await Html.PartialAsync("_Logo")
+                <h1 class="auth-title">Verificacao</h1>
+                <p class="auth-subtitle muted">Insira o codigo de verificacao</p>
+            </div>
+
+            @if (TempData["Sucesso"] != null)
+            {
+                <div class="message success">@TempData["Sucesso"]</div>
+            }
+            @if (!string.IsNullOrEmpty(ViewBag.Erro))
+            {
+                <div class="message error">@ViewBag.Erro</div>
+            }
+
+            <form class="form-stack" method="post" asp-controller="Auth" asp-action="VerifyCode">
+                <div class="field">
+                    <label for="code">Codigo de verificacao</label>
+                    <input class="input mono" id="code" name="code" type="text" maxlength="6" placeholder="123456" required />
+                </div>
+                <button class="btn primary" type="submit">Verificar</button>
+            </form>
+
+            <div class="auth-links">
+                <a class="auth-link secondary" asp-controller="Auth" asp-action="Login">Voltar ao login</a>
+            </div>
+        </div>
+        <p class="auth-footer">Instituto Federal de Rondonia</p>
+    </div>
+</div>

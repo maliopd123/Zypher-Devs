@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Ajuda";
+    ViewData["CurrentPage"] = "ajuda";
+    ViewData["ShellTitle"] = "Ajuda";
+}
+
+@await Html.PartialAsync("_DashboardShellStart")
+
+<div class="page-stack">
+    <div class="page-head">
+        <h2>Ajuda</h2>
+        <p class="muted">Atalhos para resolver as principais duvidas do sistema.</p>
+    </div>
+
+    <div class="grid three">
+        <div class="panel pad"><h2 class="section-title">Login</h2><p class="muted">Use a matricula e senha cadastradas. A conta de teste e 123456 / 123456.</p></div>
+        <div class="panel pad"><h2 class="section-title">Chaves</h2><p class="muted">Cadastre novas chaves no Coletor de Chaves e acompanhe a disponibilidade.</p></div>
+        <div class="panel pad"><h2 class="section-title">Relatorios</h2><p class="muted">Acompanhe chaves, usuarios e negacoes na area de relatorios.</p></div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_DashboardShellEnd")

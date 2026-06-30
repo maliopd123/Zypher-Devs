@@ -1,0 +1,45 @@
+@{
+    var currentPage = ViewData["CurrentPage"] as string ?? "dashboard";
+    var userName = Context.Session.GetString("UsuarioNome") ?? "Usuario";
+    var pageTitle = ViewData["ShellTitle"] as string ?? "Painel de Controle";
+    string Active(string page) => currentPage == page ? "active" : "";
+    ViewDataDictionary IconData(string icon) => new(ViewData) { ["Icon"] = icon };
+}
+
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            @await Html.PartialAsync("_Logo", new ViewDataDictionary(ViewData) { ["LogoClass"] = "logo-mark small" })
+            <div>
+                <div class="brand-title">Instituto Federal</div>
+                <div class="brand-subtitle">Rondonia</div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="nav-item @Active("dashboard")" asp-controller="Dashboard" asp-action="Index">@await Html.PartialAsync("_Icon", IconData("home"))<span>Painel de Controle</span></a>
+            <a class="nav-item @Active("chaves")" asp-controller="Chaves" asp-action="Index">@await Html.PartialAsync("_Icon", IconData("key"))<span>Coletor de Chaves</span></a>
+            <a class="nav-item @Active("usuarios")" asp-controller="Usuarios" asp-action="Index">@await Html.PartialAsync("_Icon", IconData("users"))<span>Coletor Usuario</span></a>
+            <a class="nav-item @Active("negacoes")" asp-controller="Chaves" asp-action="Negacoes">@await Html.PartialAsync("_Icon", IconData("lock"))<span>Negacoes de Acesso</span></a>
+            <a class="nav-item @Active("disponibilidade")" asp-controller="Chaves" asp-action="Disponibilidade">@await Html.PartialAsync("_Icon", IconData("bolt"))<span>Disponibilidade de Chaves</span></a>
+            <a class="nav-item @Active("chaves-disponiveis")" asp-controller="Chaves" asp-action="Disponiveis">@await Html.PartialAsync("_Icon", IconData("shield"))<span>Chaves Disponiveis</span></a>
+            <a class="nav-item @Active("relatorios")" asp-controller="Relatorios" asp-action="Index">@await Html.PartialAsync("_Icon", IconData("chart"))<span>Relatorios</span></a>
+            <a class="nav-item @Active("configuracoes")" asp-controller="Configuracoes" asp-action="Index">@await Html.PartialAsync("_Icon", IconData("settings"))<span>Configuracoes de Usuario</span></a>
+        </nav>
+
+        <div class="sidebar-foot">
+            <a class="nav-item @Active("ajuda")" asp-controller="Suporte" asp-action="Ajuda">@await Html.PartialAsync("_Icon", IconData("help"))<span>Ajuda</span></a>
+            <a class="nav-item @Active("documentacao")" asp-controller="Suporte" asp-action="Documentacao">@await Html.PartialAsync("_Icon", IconData("file"))<span>Documentacao</span></a>
+        </div>
+    </aside>
+
+    <section class="main-pane">
+        <header class="topbar">
+            <h1>@pageTitle</h1>
+            <div class="topbar-actions">
+                <button class="icon-btn" type="button" title="Notificacoes">@await Html.PartialAsync("_Icon", IconData("bell"))</button>
+                <div class="avatar" title="@userName">@userName.Substring(0, 1).ToUpperInvariant()</div>
+                <a class="icon-btn" asp-controller="Auth" asp-action="Logout" title="Sair">@await Html.PartialAsync("_Icon", IconData("logout"))</a>
+            </div>
+        </header>
+        <main class="content">
