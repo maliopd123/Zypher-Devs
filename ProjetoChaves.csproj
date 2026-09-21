@@ -12,6 +12,16 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="MySql.Data" Version="9.3.0" />
+  </ItemGroup>
+
+  <!-- LoginSystem e um projeto independente dentro deste repositório. -->
+  <ItemGroup>
+    <Compile Remove="Login\**\*.cs" />
+    <Content Remove="Login\**" />
+    <EmbeddedResource Remove="Login\**" />
+    <None Remove="Login\**" />
   </ItemGroup>
 
 </Project>
+

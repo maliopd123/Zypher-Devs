@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using ProjetoChaves.Data;
+using ProjetoChaves.DAO;
 using ProjetoChaves.Models;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,11 +8,11 @@ namespace ProjetoChaves.Controllers
 {
     public class AuthController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly UsuarioDAO _usuarioDAO;
 
-        public AuthController(ApplicationDbContext context)
+        public AuthController(UsuarioDAO usuarioDAO)
         {
-            _context = context;
+            _usuarioDAO = usuarioDAO;
         }
 
         [HttpGet]
@@ -24,41 +24,23 @@ namespace ProjetoChaves.Controllers
 
         [HttpPost]
         [Route("login")]
-        public IActionResult Login(string matricula, string senha)
+        public IActionResult Login(string email, string senha)
         {
-            if (string.IsNullOrEmpty(matricula) || string.IsNullOrEmpty(senha))
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(senha))
             {
                 ViewBag.Erro = "Preencha todos os campos";
                 return View();
             }
 
-            if ((matricula == "123456" || matricula == "00-0000") && senha == "123456")
-            {
-                HttpContext.Session.SetString("UsuarioId", "1");
-                HttpContext.Session.SetString("UsuarioNome", "Usuario Teste");
-                return RedirectToAction("Index", "Dashboard");
-            }
-
-            if (matricula == "00-0000")
-            {
-                return RedirectToAction("VerifyCode");
-            }
-
-            var usuario = _context.Usuarios.FirstOrDefault(u => u.Matricula == matricula);
+            var usuario = _usuarioDAO.BuscarPorEmail(email.Trim());
             if (usuario == null || string.IsNullOrEmpty(usuario.Senha) || !VerificarSenha(senha, usuario.Senha))
             {
-                ViewBag.Erro = "Matricula ou senha invalida";
-                return View();
-            }
-
-            if (!usuario.Ativo)
-            {
-                ViewBag.Erro = "Usuario inativo";
+                ViewBag.Erro = "E-mail ou senha invalida";
                 return View();
             }
 
             HttpContext.Session.SetString("UsuarioId", usuario.Id.ToString());
-            HttpContext.Session.SetString("UsuarioNome", usuario.Nome ?? "Usuario");
+            HttpContext.Session.SetString("UsuarioNome", usuario.Nome);
 
             return RedirectToAction("Index", "Dashboard");
         }
@@ -72,10 +54,10 @@ namespace ProjetoChaves.Controllers
 
         [HttpPost]
         [Route("register")]
-        public IActionResult Cadastro(string nome, string email, string matricula, string senha, string confirmarSenha)
+        public IActionResult Cadastro(string nome, string email, string senha, string confirmarSenha)
         {
             if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(email) ||
-                string.IsNullOrEmpty(matricula) || string.IsNullOrEmpty(senha) ||
+                string.IsNullOrEmpty(senha) ||
                 string.IsNullOrEmpty(confirmarSenha))
             {
                 ViewBag.Erro = "Preencha todos os campos";
@@ -94,9 +76,9 @@ namespace ProjetoChaves.Controllers
                 return View();
             }
 
-            if (_context.Usuarios.Any(u => u.Matricula == matricula))
+            if (_usuarioDAO.BuscarPorEmail(email.Trim()) != null)
             {
-                ViewBag.Erro = "Matricula ja cadastrada";
+                ViewBag.Erro = "E-mail ja cadastrado";
                 return View();
             }
 
@@ -104,17 +86,14 @@ namespace ProjetoChaves.Controllers
             {
                 Nome = nome,
                 Email = email,
-                Matricula = matricula,
                 Senha = HashSenha(senha),
-                DataCadastro = DateTime.Now,
-                Ativo = true
+                DataCadastro = DateTime.Now
             };
 
-            _context.Usuarios.Add(usuario);
-            _context.SaveChanges();
+            _usuarioDAO.Inserir(usuario);
 
-            TempData["Sucesso"] = "Cadastro realizado com sucesso. Insira o codigo de verificacao.";
-            return RedirectToAction("VerifyCode");
+            TempData["Sucesso"] = "Cadastro realizado com sucesso. Entre com seu e-mail e senha.";
+            return RedirectToAction("Login");
         }
 
         [HttpGet]
@@ -182,8 +161,7 @@ namespace ProjetoChaves.Controllers
 
         private static bool VerificarSenha(string senha, string hash)
         {
-            var hashDaSenha = HashSenha(senha);
-            return hashDaSenha == hash;
+            return senha == hash || HashSenha(senha) == hash;
         }
     }
 }
