@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
-using ProjetoChaves.Data;
+using ProjetoChaves.DAO;
+using ProjetoChaves.Models;
 
 namespace ProjetoChaves.Controllers
 {
     public class UsuariosController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly UsuarioDAO _usuarioDAO;
 
-        public UsuariosController(ApplicationDbContext context)
+        public UsuariosController(UsuarioDAO usuarioDAO)
         {
-            _context = context;
+            _usuarioDAO = usuarioDAO;
         }
 
         [HttpGet]
@@ -21,7 +22,10 @@ namespace ProjetoChaves.Controllers
                 return RedirectToAction("Login", "Auth");
             }
 
-            var usuarios = _context.Usuarios.OrderBy(u => u.Nome).ToList();
+            var usuarios = _usuarioDAO.Listar();
+
+            usuarios = usuarios.OrderBy(u => u.Nome).ToList();
+
             return View(usuarios);
         }
     }

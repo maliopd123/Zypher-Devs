@@ -1,8 +1,8 @@
 using ProjetoChaves.Data;
 using Microsoft.EntityFrameworkCore;
-
+using ProjetoChaves.DAO;
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddScoped<UsuarioDAO>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -21,6 +21,14 @@ builder.Services.AddSession(options =>
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+// Garante que o banco local usado pelas telas de chaves esteja criado antes
+// do primeiro acesso.
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -44,3 +52,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
