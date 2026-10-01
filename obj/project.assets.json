@@ -3866,23 +3866,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\2024102020046\\.nuget\\packages\\": {},
+    "C:\\Users\\2024102020073\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\2024102020046\\Documents\\GitHub\\Zypher-Devs\\ProjetoChaves.csproj",
+      "projectUniqueName": "C:\\Users\\2024102020073\\Documents\\GitHub\\Zypher-Devs\\ProjetoChaves.csproj",
       "projectName": "ProjetoChaves",
-      "projectPath": "C:\\Users\\2024102020046\\Documents\\GitHub\\Zypher-Devs\\ProjetoChaves.csproj",
-      "packagesPath": "C:\\Users\\2024102020046\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\2024102020046\\Documents\\GitHub\\Zypher-Devs\\obj\\",
+      "projectPath": "C:\\Users\\2024102020073\\Documents\\GitHub\\Zypher-Devs\\ProjetoChaves.csproj",
+      "packagesPath": "C:\\Users\\2024102020073\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\2024102020073\\Documents\\GitHub\\Zypher-Devs\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\2024102020046\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\2024102020073\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3896,7 +3896,6 @@
       },
       "frameworks": {
         "net8.0": {
-          "framework": "net8.0",
           "targetAlias": "net8.0",
           "projectReferences": {}
         }
@@ -3915,7 +3914,6 @@
     },
     "frameworks": {
       "net8.0": {
-        "framework": "net8.0",
         "targetAlias": "net8.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Sqlite": {
