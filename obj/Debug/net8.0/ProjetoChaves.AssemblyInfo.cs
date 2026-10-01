@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProjetoChaves")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+206e93842298577005ed226cf54957eb3ad28a56")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+37fcefcb09bba92a9258c48c2611c32fb63e03aa")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProjetoChaves")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProjetoChaves")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
