@@ -14,9 +14,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 INSERT INTO usuarios (nome_usu, email_usu, senha_usu)
 VALUES
 ('Abraao', 'abraao@gmail.com', '123456'),
-('Joao', 'joao@gmail.com', '123456'),
 ('Isaac', 'isaac@gmail.com', '123456'),
-('Arthur', 'arthur@gmail.com', '123456')usuariosusuarios,
+('Arthur', 'arthur@gmail.com', '123456')
 ('Adrian', 'adrian@gmail.com', '123456');
 SELECT * FROM usuarios;
-
